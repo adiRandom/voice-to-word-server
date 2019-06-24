@@ -37,34 +37,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
+var Page_1 = require("../models/Page");
+var fs_1 = __importDefault(require("fs"));
+var os_1 = __importDefault(require("os"));
 var path_1 = __importDefault(require("path"));
-var SaveToDocx_1 = __importDefault(require("./services/SaveToDocx"));
-var body_parser_1 = __importDefault(require("body-parser"));
-var cors_1 = __importDefault(require("cors"));
-var app = express_1.default();
-app.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
-app.use(body_parser_1.default.json());
-app.use(cors_1.default());
-app.use(body_parser_1.default.urlencoded({ extended: true }));
-app.get("/", function (req, res) {
-    res.sendFile(path_1.default.join(__dirname, "../public/index.html"));
-});
-app.post("/doc", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var _a, pageToSave, fileName;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, pageToSave = _a.pageToSave, fileName = _a.fileName;
-                return [4 /*yield*/, SaveToDocx_1.default(pageToSave, fileName)];
-            case 1:
-                _b.sent();
-                res.sendStatus(200);
-                return [2 /*return*/];
-        }
+var docx_1 = require("docx");
+var Paragraph_1 = __importDefault(require("../models/Paragraph"));
+/**
+ * Service that creates a Docx from a Page model
+ * @param pageToSave The Page model from which the docx is created
+ * @param fileName The name of the docx file
+ */
+function saveToDocx(mock, fileName) {
+    return __awaiter(this, void 0, void 0, function () {
+        var pageToSave, doc, _i, _a, mockParagraph, paragraph, _paragraph, packer;
+        return __generator(this, function (_b) {
+            pageToSave = new Page_1.Page(mock);
+            //Create the folder to save the doc if it hasn't been created prior
+            fs_1.default.mkdirSync(path_1.default.join(os_1.default.homedir(), "Documents/voice-to-word"), { recursive: true });
+            doc = new docx_1.Document();
+            for (_i = 0, _a = pageToSave.Paragraphs; _i < _a.length; _i++) {
+                mockParagraph = _a[_i];
+                paragraph = new Paragraph_1.default(mockParagraph);
+                _paragraph = new docx_1.Paragraph(paragraph.Paragraph);
+                doc.addParagraph(_paragraph);
+            }
+            packer = new docx_1.Packer();
+            return [2 /*return*/, packer.toBuffer(doc).then(function (buffer) {
+                    fs_1.default.writeFileSync(path_1.default.join(os_1.default.homedir(), "Documents/voice-to-word/" + fileName + ".docx"), buffer);
+                })];
+        });
     });
-}); });
-app.listen(8000);
-//# sourceMappingURL=app.js.map
+}
+exports.default = saveToDocx;
+//# sourceMappingURL=SaveToDocx.js.map

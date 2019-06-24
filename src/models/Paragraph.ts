@@ -5,8 +5,11 @@
 export default class Paragraph {
     private readonly underlyingText: string;
 
-    constructor(state: string) {
-        this.underlyingText = state
+    constructor(state: string | ParagraphMock) {
+        if (isParagraphMock(state))
+            this.underlyingText = state.underlyingText
+        else
+            this.underlyingText = state;
     }
 
     /**
@@ -38,8 +41,19 @@ export default class Paragraph {
      * @param text The text to replace this Paragraph
      * @returns a new updated Paragraph
      */
-    public clearAndUpdateParagraph(text:string):Paragraph{
+    public clearAndUpdateParagraph(text: string): Paragraph {
         return new Paragraph(text);
     }
 
+}
+
+
+
+export interface ParagraphMock {
+    underlyingText: string;
+}
+
+
+function isParagraphMock(val:any):val is ParagraphMock{
+    return val.underlyingText;
 }

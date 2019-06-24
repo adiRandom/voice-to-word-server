@@ -16,10 +16,19 @@ export class Page {
      * How many paragraphs does this page contains
      */
     private readonly size: number;
-    constructor(paragraphs?: Paragraph[], workingParagraph?: number) {
-        this.paragraphs = paragraphs ? paragraphs : [new Paragraph("")];
-        this.workingParagraph = workingParagraph ? workingParagraph : 0;
-        this.size = paragraphs ? paragraphs.length : 1;
+
+    constructor(pageMock: PageMock);
+    constructor(paragraphs?: Paragraph[], workingParagraph?: number);
+    constructor(paragraphs?: Paragraph[] | PageMock, workingParagraph?: number) {
+        if (isPageMock(paragraphs)) {
+            this.paragraphs = paragraphs.paragraphs
+            this.workingParagraph = paragraphs.workingParagraph
+            this.size = paragraphs.size;
+        } else {
+            this.paragraphs = paragraphs ? paragraphs : [new Paragraph("")];
+            this.workingParagraph = workingParagraph ? workingParagraph : 0;
+            this.size = paragraphs ? paragraphs.length : 1;
+        }
     }
 
     /**
@@ -36,7 +45,7 @@ export class Page {
     /**
      * Get the paragraphs from this Page
      */
-    get Paragraphs(){return this.paragraphs}
+    get Paragraphs() { return this.paragraphs }
 
     /**
      * @returns The paragraph that is being edited at the moment
@@ -93,4 +102,24 @@ export class Page {
         return index < this.size ? new Page(this.paragraphs, index) : this;
     }
 
+}
+
+
+export interface PageMock {
+    /**
+         * The paragraphs contained by this page
+         */
+    paragraphs: Paragraph[];
+    /**
+     * The paragraph that is currently updating
+     */
+    workingParagraph: number;
+    /**
+     * How many paragraphs does this page contains
+     */
+    size: number;
+}
+
+function isPageMock(val: any): val is PageMock {
+    return (val.paragraphs);
 }

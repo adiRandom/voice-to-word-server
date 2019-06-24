@@ -6,16 +6,19 @@
   "bin": "build/app.js",
   "scripts": {
     "build": "tsc && pkg . --target host --output build/app/voice-to-word.exe",
-    "start": "cd build && node app.js"
+    "start": "tsc && cd build && node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "docx": "^5.0.0-rc3",
     "express": "^4.17.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.5",
     "@types/express": "^4.17.0",
     "@types/node": "^12.0.10",
     "@types/uuid": "^3.4.4"

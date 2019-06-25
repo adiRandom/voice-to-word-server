@@ -11,9 +11,9 @@ import Paragraph, { ParagraphMock } from "../models/Paragraph";
  * @param pageToSave The Page model from which the docx is created
  * @param fileName The name of the docx file
  */
-export default async function saveToDocx(mock: PageMock, fileName: string): Promise<void> {
+export default async function saveToDocx(mock: PageMock[], fileName: string): Promise<void> {
 
-    const pageToSave = new Page(mock)
+    const document = mock.map((val: PageMock, index: number) => new Page(val));
 
     //Create the folder to save the doc if it hasn't been created prior
 
@@ -23,10 +23,15 @@ export default async function saveToDocx(mock: PageMock, fileName: string): Prom
     //Create the doc and write the paragraphs to it
 
     const doc: Document = new Document();
-    for (let mockParagraph of pageToSave.Paragraphs) {
-        const paragraph = new Paragraph((mockParagraph as unknown) as ParagraphMock);
-        const _paragraph: docxParagraph = new docxParagraph(paragraph.Paragraph);
-        doc.addParagraph(_paragraph);
+    for (let i = 0; i < document.length; i++) {
+        for (let j = 0; j < document[i].Paragraphs.length; j++) {
+            const mockParagraph = document[i].Paragraphs[j];
+            const paragraph = new Paragraph((mockParagraph as unknown) as ParagraphMock);
+            let _paragraph: docxParagraph = new docxParagraph(paragraph.Paragraph);
+            if (i + 1 !== document.length && j + 1 === document[i].Paragraphs.length)
+                _paragraph = _paragraph.pageBreak();
+            doc.addParagraph(_paragraph);
+        }
     }
 
 

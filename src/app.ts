@@ -18,8 +18,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/doc", async (req: Request, res: Response) => {
-    const { pageToSave, fileName } = req.body;
-    await saveToDocx(pageToSave, fileName);
+    const { document, fileName } = req.body;
+    await saveToDocx(document, fileName);
     res.sendStatus(200);
     //TODO: Check for erorrs
 })

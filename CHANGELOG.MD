@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+**Added**
+
+- Multi page document support
+
+
+## V1.0.0
+
  **Added**
  
 - Homescreen route

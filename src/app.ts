@@ -4,8 +4,11 @@ import { Page } from './models/Page';
 import saveToDocx from './services/SaveToDocx';
 import bodyParser from "body-parser";
 import cors from "cors"
+import open from "open";
 
 const app = Express();
+
+
 
 
 app.use(Express.static(path.join(__dirname, "../public")));
@@ -19,9 +22,14 @@ app.get("/", (req: Request, res: Response) => {
 
 app.post("/doc", async (req: Request, res: Response) => {
     const { document, fileName } = req.body;
-    await saveToDocx(document, fileName);
-    res.sendStatus(200);
-    //TODO: Check for erorrs
+    try {
+        await saveToDocx(document, fileName);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        res.sendStatus(500);
+        res.send(e);
+    }
 })
 
-app.listen(8000);
+export default app;

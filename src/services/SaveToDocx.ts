@@ -2,7 +2,7 @@ import { Page, PageMock } from "../models/Page";
 import fs from "fs"
 import os from "os"
 import path from "path"
-import { Document, Packer, Paragraph as docxParagraph } from "docx";
+import { Document, Packer, Paragraph as docxParagraph, TextRun } from "docx";
 import Paragraph, { ParagraphMock } from "../models/Paragraph";
 
 
@@ -27,7 +27,9 @@ export default async function saveToDocx(mock: PageMock[], fileName: string): Pr
         for (let j = 0; j < document[i].Paragraphs.length; j++) {
             const mockParagraph = document[i].Paragraphs[j];
             const paragraph = new Paragraph((mockParagraph as unknown) as ParagraphMock);
-            let _paragraph: docxParagraph = new docxParagraph(paragraph.Paragraph);
+            let _paragraph: docxParagraph = new docxParagraph();
+            const textRun = new TextRun(paragraph.Paragraph).size(24);
+            _paragraph.addRun(textRun);
             if (i + 1 !== document.length && j + 1 === document[i].Paragraphs.length)
                 _paragraph = _paragraph.pageBreak();
             doc.addParagraph(_paragraph);

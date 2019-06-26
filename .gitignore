@@ -1,1 +1,8 @@
 node_modules
+build/models
+build/services/**/*
+build/*.js
+build/*.js.*
+build/tsconfig.tsbuildinfo
+build/tsconfig.tsbuildinfo
+build/app.js

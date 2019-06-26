@@ -1,12 +1,12 @@
 {
   "name": "voice-to-word-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "build/app.js",
-  "bin": "build/app.js",
+  "main": "build/index.js",
+  "bin": "build/index.js",
   "scripts": {
     "build": "tsc && pkg . --target host --output build/app/voice-to-word.exe",
-    "start": "tsc && cd build && node app.js"
+    "start": "tsc && cd build && node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "docx": "^5.0.0-rc3",
     "express": "^4.17.1",
+    "open": "^6.3.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

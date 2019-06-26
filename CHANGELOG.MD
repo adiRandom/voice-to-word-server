@@ -1,10 +1,19 @@
 # Changelog
 
-## [Unreleased]
+## 1.0.1
 
 **Added**
 
 - Multi page document support
+- Error handling
+- UI
+- Opend the browser at start
+- A readme
+- Prod build
+
+**Changed**
+
+- The React build with the prod one
 
 
 ## V1.0.0

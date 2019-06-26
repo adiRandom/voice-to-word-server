@@ -10,6 +10,7 @@
 - Opend the browser at start
 - A readme
 - Prod build
+- Changed icon
 
 **Changed**
 

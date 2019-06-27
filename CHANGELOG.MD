@@ -1,6 +1,14 @@
 # Changelog
 
-## 1.0.1
+## V1.0.2.
+
+**Fixed**
+
+- Added fixed front-end build
+- Fixed a bug when sneding the error status
+
+
+## V1.0.1
 
 **Added**
 

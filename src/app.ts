@@ -22,14 +22,9 @@ app.get("/", (req: Request, res: Response) => {
 
 app.post("/doc", async (req: Request, res: Response) => {
     const { document, fileName } = req.body;
-    try {
-        await saveToDocx(document, fileName);
-        res.sendStatus(200);
-    }
-    catch (e) {
-        res.sendStatus(500);
-        res.send(e);
-    }
-})
+    saveToDocx(document, fileName).then(() => { res.sendStatus(200); }).catch((e) => {
+        res.status(500);
+    })
+});
 
 export default app;
